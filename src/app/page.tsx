@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { db } from "@/lib/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -76,10 +75,10 @@ export default function Home() {
 
     setSearchingNik(true);
     try {
-      const { data, error } = await db
-        .rpc("search_penduduk_by_nik", { p_nik: nik });
-
-      if (error) throw error;
+      const response = await fetch(`/api/penduduk?nik=${nik}`);
+      if (!response.ok) throw new Error('Failed to fetch');
+      
+      const data = await response.json();
 
       if (data && data.length > 0) {
         setSelectedPenduduk(data[0]);
@@ -98,7 +97,7 @@ export default function Home() {
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.message,
+        description: error.message || "Terjadi kesalahan saat mencari data",
         variant: "destructive",
       });
     } finally {
@@ -140,16 +139,23 @@ export default function Home() {
     setLoading(true);
 
     try {
-      // Submit surat using RPC function (works for public/unauthenticated users)
-      const { data: suratData, error: suratError } = await db
-        .rpc("submit_public_surat", {
-          p_jenis_surat: jenisSurat as any,
-          p_penduduk_id: selectedPenduduk.id,
-          p_keperluan: keperluan,
-          p_pejabat_ttd: pejabatTtd,
-        });
+      // Submit surat using API
+      const response = await fetch('/api/surat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          jenis_surat: jenisSurat,
+          penduduk_id: selectedPenduduk.id,
+          keperluan: keperluan,
+          pejabat_ttd: pejabatTtd,
+        }),
+      });
 
-      if (suratError) throw suratError;
+      if (!response.ok) throw new Error('Failed to submit');
+      
+      const suratData = await response.json();
 
       const result = suratData as { id: string; nomor_surat: string };
 
