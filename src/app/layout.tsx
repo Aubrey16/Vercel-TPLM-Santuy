@@ -16,6 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Desa Kedungwringin - Sistem Pelayanan Surat Online",
   description: "Sistem pelayanan surat online untuk Desa Kedungwringin",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({

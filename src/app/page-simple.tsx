@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <div className="min-h-screen bg-blue-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
         <h1 className="text-3xl font-bold text-gray-900 mb-4">
           Desa Kedungwringin
@@ -9,13 +9,8 @@ export default function Home() {
           Sistem Pelayanan Surat Online
         </p>
         <p className="text-sm text-gray-500">
-          Aplikasi berhasil di-deploy ke Vercel!
+          Aplikasi sedang dalam pengembangan...
         </p>
-        <div className="mt-6 p-4 bg-green-100 rounded-lg">
-          <p className="text-green-800 text-sm">
-            ✅ Next.js 16.0.8 - Ready to deploy
-          </p>
-        </div>
       </div>
     </div>
   );
